@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package sso;
+option go_package = "github.com/saber-1221/grpc-users/protos/sso";
+
+
+message RegisterRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message RegisterResponse {
+    int64 user_id = 1;
+}
+
+message LoginRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message LoginResponse {
+    string access_token = 1;
+    string refresh_token = 2;
+    int64 expires_in = 3;
+}
+
+message RefreshTokenRequest {
+    string refresh_token = 1;
+}
+
+message RefreshTokenResponse {
+    string access_token = 1;
+    string refresh_token = 2;
+    int64 expire_in = 3;
+}
+
+message IsInvalidTokenRequest {
+    string refresh_token = 1;
+}
+
+message IsInvalidTokenResponse {
+    bool is_valid = 1;
+    int64 user_id = 2;
+    string email = 3;
+}
+
+service SSO {
+    rpc Register(RegisterRequest) returns (RegisterResponse);
+    rpc Login(LoginRequest) returns (LoginResponse);
+    rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
+    rpc IsInvalidToken(IsInvalidTokenRequest) returns (IsInvalidTokenResponse);
+}
+
